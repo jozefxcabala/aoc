@@ -18,10 +18,10 @@ class Line:
         self.point1 = point1
 
         #part1
-        if((self.point0.x0 == self.point1.x0) or (self.point0.y0 == self.point1.y0)):
-            self.pointOnLine = self.getPointsOnLine()
-        else:
-            self.pointOnLine = []
+        #if((self.point0.x0 == self.point1.x0) or (self.point0.y0 == self.point1.y0)):
+        self.pointOnLine = self.getPointsOnLine() #part2
+        #else:
+            #self.pointOnLine = []
 
     def getPointsOnLine(self):
         pointsOnLine = []
@@ -33,22 +33,28 @@ class Line:
         for i in range(startX, endX + 1):
             for j in range(startY, endY + 1):
                 if(self.pointIsOnLine(i, j)):
-                    pointsOnLine.append(Point(i, j))
+                    pointsOnLine.append(Point(i, j))                   
         
         return pointsOnLine
+        
+    def pointIsOnLine(self, x0, y0): 
+        dxc = x0 - self.point0.x0
+        dyc = y0 - self.point0.y0
 
-    def pointIsOnLine(self, x0, y0):  
-        AB = math.sqrt(pow(self.point1.x0 - self.point0.x0, 2) + pow(self.point1.y0 - self.point0.y0, 2))
-        AP = math.sqrt(pow(self.point1.x0 - x0, 2) + pow(self.point1.y0 - y0, 2))
-        PB = math.sqrt(pow(x0 - self.point0.x0, 2) + pow(y0 - self.point0.y0, 2))
-        if(AB == AP + PB):
-            return True
-        else:
+        dxl = self.point0.x0 - self.point1.x0
+        dyl = self.point0.y0 - self.point1.y0
+
+        cross = dxc * dyl - dyc * dxl
+        
+        if cross != 0:
             return False
-    
+        else:
+            return True
+                  
     def __str__(self):
         line = f"line: point0 {str(self.point0)} point1 {str(self.point1)}"
         points = ""
+        
         for i in range(len(self.pointOnLine)):
             points += f"point{str(i)}" + " " + str(self.pointOnLine[i]) + "\n"
         return line + "\n" + points
